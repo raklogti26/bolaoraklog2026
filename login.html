@@ -78,6 +78,8 @@ function cadastrar() {
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 
+    import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
 const firebaseConfig = {
   apiKey: "AIzaSyAbwQJDBKATh1roR9t2qq3QVoryU68qY1U",
   authDomain: "bolao2026register.firebaseapp.com",
@@ -89,6 +91,11 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+
+    
+const auth = getAuth(app);
+console.log("Auth carregado");
+
 
 console.log("Firebase carregado com sucesso");
 
