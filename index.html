@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Bolão Copa do Mundo 2026</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="css/estilo.css">
+
+    <!-- FONTES -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+
+    <!-- FIREBASE -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+</head>
+
+<body>
+
+<header>
+
+</header>
+
+<div class="container">
+
+    <!-- SIDEBAR -->
+
+
+<aside class="sidebar">
+
+
+
+    <div class="menu">
+
+        <button class="menu-item ativo" onclick="mostrarAba('ranking')">
+            🏆 Ranking Geral
+        </button>
+
+        <button class="menu-item" onclick="mostrarAba('rodadas')">
+            📅 Rodadas
+        </button>
+
+        <div class="submenu">
+<button class="submenu-item" onclick="mostrarRodada('grupos')">
+        • Grupos
+    </button>
+    <button class="submenu-item" onclick="mostrarRodada('eliminatorias')">
+        • Eliminatórias
+    </button>
+
+    </div>
+
+    <div class="menu-bottom">
+        <a href="regras.html" class="menu-item">📋 Regras</a>
+    </div>
+
+<a href="premiacao.html" class="menu-item">
+    💰 Premiação
+</a>
+
+
+    </aside>
+
+    <!-- CONTEÚDO -->
+    <main>
+
+<div class="top-header">
+    <div class="header-conteudo">
+        <h1>BOLÃO COPA 2026</h1>
+        <p>Acompanhe os jogos, palpites e a classificação do bolão!</p>
+    </div>
+
+    <div class="header-info">
+        <div>Faltam para a copa</div>
+        <div class="tempo">12d 08h 45m</div>
+    </div>
+  
+</div>
+
+
+        <!-- RANKING -->
+        <section id="aba-ranking">
+            <h2>Ranking Geral</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Posição</th>
+                        <th>Participante</th>
+                        <th>Pontos</th>
+                    </tr>
+                </thead>
+                <tbody id="tabelaRanking"></tbody>
+            </table>
+        </section>
+
+        <!-- RODADAS -->
+        <section id="aba-rodadas" style="display:none;">
+            <h2>Rodadas da Copa</h2>
+
+            <!-- GRUPOS -->
+            <section id="rodada-grupos">
+                <h3>Fase de Grupos</h3>
+                <div id="gruposContainer"></div>
+            </section>
+
+            <!-- ELIMINATÓRIAS -->
+            <section id="rodada-eliminatorias" style="display:none;">
+                <h3>Fase Eliminatória</h3>
+                <div id="eliminatoriasContainer"></div>
+            </section>
+
+        </section>
+
+    </main>
+
+</div>
+
+<footer>
+    <p>© 2026 - Bolão Copa do Mundo</p>
+</footer>
+
+<script>
+const firebaseConfig = {
+
+apiKey: "AIzaSyA65IJsycu-tBDu1ZJ2FDXWSRoxetq091I",
+  authDomain: "bolao-copa-2026-b39f1.firebaseapp.com",
+  databaseURL: "https://bolao-copa-2026-b39f1-default-rtdb.firebaseio.com",
+  projectId: "bolao-copa-2026-b39f1",
+  storageBucket: "bolao-copa-2026-b39f1.appspot.com",
+  messagingSenderId: "47483489037",
+  appId: "1:47483489037:web:dd956178aa5eaf1e677e44"
+
+};
+
+firebase.initializeApp(firebaseConfig);
+</script>
+
+<script>
+
+function mostrarAba(aba) {
+
+    // esconder abas
+    document.getElementById("aba-ranking").style.display = "none";
+    document.getElementById("aba-rodadas").style.display = "none";
+
+    // mostrar a selecionada
+    document.getElementById("aba-" + aba).style.display = "block";
+
+    // 🔥 remover ativo de todos
+    document.querySelectorAll('.menu-item').forEach(btn => {
+        btn.classList.remove('ativo');
+    });
+
+    // 🔥 ativar o correto
+    if (aba === "ranking") {
+        document.querySelectorAll('.menu-item')[0].classList.add("ativo");
+    }
+
+    if (aba === "rodadas") {
+        document.querySelectorAll('.menu-item')[1].classList.add("ativo");
+    }
+}
+
+</script>
+
+<script src="js/bolao.js"></script>
+<script src="js/ranking.js"></script>
+<script src="js/rodadas.js"></script>
+
+</body>
+</html>

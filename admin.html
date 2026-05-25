@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Administração do Bolão</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/estilo.css">
+
+    <!-- FIREBASE -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+</head>
+
+<body class="admin">
+
+<!-- FAIXA LARANJA -->
+<header></header>
+
+<div class="container">
+
+    <!-- ✅ MENU LATERAL DO ADMIN -->
+    <aside class="sidebar">
+        <div class="menu">
+
+            <button class="menu-item ativo" onclick="mostrarAba('participantes')">
+                👥 Participantes
+            </button>
+
+            <button class="menu-item" onclick="mostrarAba('palpites')">
+                🎯 Palpites
+            </button>
+
+            <button class="menu-item" onclick="mostrarAba('resultados')">
+                ⚽ Resultados
+            </button>
+
+        </div>
+    </aside>
+
+    <!-- ✅ CONTEÚDO -->
+    <main>
+
+        <!-- ✅ TOP HEADER PADRÃO -->
+        <div class="top-header top-header-admin">
+            <div class="header-conteudo">
+                <h1>ADMINISTRAÇÃO DO BOLÃO</h1>
+                <p>Gerencie participantes, palpites e resultados</p>
+            </div>
+        </div>
+
+        <!-- ✅ PARTICIPANTES -->
+        <section id="aba-participantes">
+            <h2>Participantes</h2>
+
+            <input type="text" id="nomeParticipante" placeholder="Nome">
+            <button onclick="adicionarParticipante()">Adicionar</button>
+
+            <ul id="listaParticipantes"></ul>
+        </section>
+
+        <!-- ✅ PALPITES -->
+        <section id="aba-palpites" style="display:none;">
+            <h2>Palpites</h2>
+
+            <label>Participante:</label>
+            <select id="selectParticipante"></select>
+
+            <div id="listaPalpites"></div>
+
+            <button onclick="salvarPalpites()">Salvar Palpites</button>
+        </section>
+
+        <!-- ✅ RESULTADOS -->
+        <section id="aba-resultados" style="display:none;">
+            <h2>Resultados dos Jogos</h2>
+
+            <div id="listaJogos"></div>
+        </section>
+
+    </main>
+
+</div>
+
+<script>
+
+// FIREBASE
+const firebaseConfig = {
+  apiKey: "AIzaSy...",
+  authDomain: "bolao-copa-2026-b39f1.firebaseapp.com",
+  databaseURL: "https://bolao-copa-2026-b39f1-default-rtdb.firebaseio.com",
+  projectId: "bolao-copa-2026-b39f1",
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+// ✅ TROCA DE ABAS + ATIVO
+function mostrarAba(aba) {
+
+    const abas = ["participantes", "palpites", "resultados"];
+
+    abas.forEach(a => {
+        document.getElementById("aba-" + a).style.display = "none";
+    });
+
+    document.getElementById("aba-" + aba).style.display = "block";
+
+    // atualizar botão ativo
+    document.querySelectorAll('.sidebar .menu-item').forEach(btn => {
+        btn.classList.remove('ativo');
+    });
+
+    if (aba === "participantes") {
+        document.querySelectorAll('.sidebar .menu-item')[0].classList.add("ativo");
+    }
+
+    if (aba === "palpites") {
+        document.querySelectorAll('.sidebar .menu-item')[1].classList.add("ativo");
+    }
+
+    if (aba === "resultados") {
+        document.querySelectorAll('.sidebar .menu-item')[2].classList.add("ativo");
+    }
+
+    if (aba === "palpites") {
+        carregarParticipantesSelect();
+        carregarPalpites();
+    }
+}
+
+// PARTICIPANTES
+function adicionarParticipante() {
+    const input = document.getElementById("nomeParticipante");
+    const nome = input.value.trim();
+
+    if (!nome) return;
+
+    db.ref("participantes/" + nome).set({ nome });
+
+    input.value = "";
+    carregarParticipantes();
+}
+
+
+function carregarParticipantes() {
+    const ul = document.getElementById("listaParticipantes");
+    ul.innerHTML = "";
+
+    db.ref("participantes").once("value", snapshot => {
+        const dados = snapshot.val();
+        if (!dados) return;
+
+        Object.keys(dados).forEach(key => {
+
+            const li = document.createElement("li");
+
+            const container = document.createElement("div");
+            container.className = "item-participante";
+
+            const nome = document.createElement("span");
+            nome.className = "nome-participante";
+            nome.textContent = dados[key].nome;
+
+            const acoes = document.createElement("div");
+            acoes.className = "acoes-participante";
+
+            const btnEditar = document.createElement("button");
+            btnEditar.className = "btn-editar";
+            btnEditar.textContent = "Editar";
+
+            btnEditar.onclick = () => {
+                entrarModoEdicao(container, key, dados[key].nome);
+            };
+
+            acoes.appendChild(btnEditar);
+
+            container.appendChild(nome);
+            container.appendChild(acoes);
+
+            li.appendChild(container);
+            ul.appendChild(li);
+        });
+    });
+}
+
+
+function removerParticipante(nome) {
+    if (!confirm("Deseja mesmo remover este participante?")) return;
+
+    db.ref("participantes/" + nome).remove();
+    carregarParticipantes();
+}
+
+function entrarModoEdicao(container, key, nomeAtual) {
+
+    container.innerHTML = "";
+
+    const input = document.createElement("input");
+    input.className = "input-edit";
+    input.value = nomeAtual;
+
+    const acoes = document.createElement("div");
+    acoes.className = "acoes-participante";
+
+    const btnSalvar = document.createElement("button");
+    btnSalvar.textContent = "Salvar";
+
+    btnSalvar.onclick = () => {
+        atualizarParticipante(key, input.value);
+    };
+
+    const btnRemover = document.createElement("button");
+    btnRemover.className = "btn-remover";
+    btnRemover.textContent = "Remover";
+
+    btnRemover.onclick = () => removerParticipante(key);
+
+    acoes.appendChild(btnSalvar);
+    acoes.appendChild(btnRemover);
+
+    container.appendChild(input);
+    container.appendChild(acoes);
+}
+
+
+
+function atualizarParticipante(oldKey, novoNome) {
+
+    if (!novoNome.trim()) return;
+
+    // se não mudou o nome, só recarrega
+    if (oldKey === novoNome) {
+        carregarParticipantes();
+        return;
+    }
+
+    // primeiro cria o novo
+    db.ref("participantes/" + novoNome).set({
+        nome: novoNome
+    }).then(() => {
+
+        // depois remove o antigo
+        db.ref("participantes/" + oldKey).remove();
+
+        // recarrega a lista
+        carregarParticipantes();
+    });
+
+
+    
+// INIT
+window.onload = () => {
+    carregarParticipantes();
+};
+
+</script>
+
+</body>
+</html>
