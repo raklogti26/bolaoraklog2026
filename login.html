@@ -74,17 +74,39 @@ function cadastrar() {
 </script>
 
     
-window.cadastrar = function () {
+
+window.cadastrar = async function () {
 
     const nome = document.getElementById("nomeCadastro").value;
     const cpf = document.getElementById("cpfCadastro").value;
     const senha = document.getElementById("senhaCadastro").value;
 
-    console.log("Nome:", nome);
-    console.log("CPF:", cpf);
-    console.log("Senha:", senha);
+    // gerar email baseado no nome
+    const nomeFormatado = nome
+        .toLowerCase()
+        .replace(/\s+/g, '')
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '');
 
-    alert("Botão cadastrar funcionando");
+    const email = nomeFormatado + "@bolaoraklog.com";
+
+    try {
+
+        const userCredential = await createUserWithEmailAndPassword(auth, email, senha);
+        const user = userCredential.user;
+
+        // salvar dados no banco
+        await set(ref(db, "usuarios/" + user.uid), {
+            nome: nome,
+            cpf: cpf,
+            email: email
+        });
+
+        alert("Cadastro concluído\n\nSeu login: " + email);
+
+    } catch (error) {
+        alert("Erro: " + error.message);
+    }
 }
 
     
