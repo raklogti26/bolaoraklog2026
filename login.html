@@ -72,3 +72,25 @@ function cadastrar() {
     console.log("Cadastro clicado");
 }
 </script>
+
+    
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAbwQJDBKATh1roR9t2qq3QVoryU68qY1U",
+  authDomain: "bolao2026register.firebaseapp.com",
+  databaseURL: "https://bolao2026register-default-rtdb.firebaseio.com/",
+  projectId: "bolao2026register",
+  storageBucket: "bolao2026register.firebasestorage.app",
+  messagingSenderId: "964326913063",
+  appId: "1:964326913063:web:62d9a085414c032dba8a02"
+};
+
+const app = initializeApp(firebaseConfig);
+
+console.log("Firebase carregado com sucesso");
+
+</script>
+
