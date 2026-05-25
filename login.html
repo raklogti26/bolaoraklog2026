@@ -1,6 +1,6 @@
-<!-- LOGIN -->
 <div class="conteudo-regra">
 
+<!-- LOGIN -->
 <div id="loginBox">
 
     <h1>🔐 LOGIN</h1>
@@ -40,8 +40,8 @@
     <input type="password" id="senhaCadastro" placeholder="Senha"
         style="width:100%; padding:10px; margin-bottom:15px;">
 
-    <button onclick="cadastrar()">Cadastrar</button
-        
+    <button onclick="cadastrar()" style="width:100%; padding:10px;">
+        Cadastrar
     </button>
 
     <p style="margin-top:15px;">
@@ -50,6 +50,8 @@
             Voltar ao login
         </span>
     </p>
+
+</div>
 
 </div>
 
@@ -67,21 +69,40 @@ function mostrarLogin() {
 function login() {
     console.log("Login clicado");
 }
-
-function cadastrar() {
-    console.log("Cadastro clicado");
-}
 </script>
 
-    
+<!-- FIREBASE -->
+<script type="module">
 
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "SUA_KEY",
+  authDomain: "bolao2026register.firebaseapp.com",
+  databaseURL: "https://bolao2026register-default-rtdb.firebaseio.com/",
+  projectId: "bolao2026register",
+  storageBucket: "bolao2026register.firebasestorage.app",
+  messagingSenderId: "964326913063",
+  appId: "1:964326913063:web:62d9a085414c032dba8a02"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getDatabase(app);
+
+console.log("Firebase OK");
+
+// ✅ IMPORTANTE: função precisa estar no window
 window.cadastrar = async function () {
+
+    console.log("Entrou na função cadastrar");
 
     const nome = document.getElementById("nomeCadastro").value;
     const cpf = document.getElementById("cpfCadastro").value;
     const senha = document.getElementById("senhaCadastro").value;
 
-    // gerar email baseado no nome
     const nomeFormatado = nome
         .toLowerCase()
         .replace(/\s+/g, '')
@@ -95,7 +116,6 @@ window.cadastrar = async function () {
         const userCredential = await createUserWithEmailAndPassword(auth, email, senha);
         const user = userCredential.user;
 
-        // salvar dados no banco
         await set(ref(db, "usuarios/" + user.uid), {
             nome: nome,
             cpf: cpf,
@@ -107,45 +127,6 @@ window.cadastrar = async function () {
     } catch (error) {
         alert("Erro: " + error.message);
     }
-}
-
-    
-<script type="module">
-
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-
-    import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-    
-import { createUserWithEmailAndPassword } 
-from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-    
-import { createUserWithEmailAndPassword } 
-from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-
-import { getDatabase, ref, set } 
-from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
-
-
-
-const firebaseConfig = {
-  apiKey: "AIzaSyAbwQJDBKATh1roR9t2qq3QVoryU68qY1U",
-  authDomain: "bolao2026register.firebaseapp.com",
-  databaseURL: "https://bolao2026register-default-rtdb.firebaseio.com/",
-  projectId: "bolao2026register",
-  storageBucket: "bolao2026register.firebasestorage.app",
-  messagingSenderId: "964326913063",
-  appId: "1:964326913063:web:62d9a085414c032dba8a02"
 };
 
-const app = initializeApp(firebaseConfig);
-
-    
-const auth = getAuth(app);
-console.log("Auth carregado");
-    const db = getDatabase(app);
-
-
-console.log("Firebase carregado com sucesso");
-
 </script>
-
