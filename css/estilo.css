@@ -1,0 +1,444 @@
+/* ==================================================
+   BASE
+================================================== */
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  margin: 0;
+  background: #fff;
+  color: #111;
+}
+
+
+.top-header {
+  background: url("../img/head5.jpg") right center / cover no-repeat;
+  color: #fff;
+  padding: 25px;
+  margin-bottom: 25px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.top-header h1 {
+  font-size: 1.8rem;
+  margin-bottom: 5px;
+}
+
+.top-header p {
+  font-size: 0.9rem;
+  color: #ccc;
+}
+
+.header-info {
+  text-align: right;
+}
+
+/* destaque tempo */
+.tempo {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #FF9E18;
+}
+
+/* ==================================================
+   HEADER
+================================================== */
+header {
+  background: #FF9E18;
+  padding: 12px 16px;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+header p {
+  font-size: 0.8rem;
+  margin-top: 5px;
+}
+
+/* ==================================================
+   LAYOUT PRINCIPAL
+================================================== */
+.container {
+  display: flex;
+  width: 100%;
+  min-height: calc(100vh - 80px);
+}
+
+/* ===== SIDEBAR BASE ===== */
+
+.sidebar {
+    width: 230px;
+    background: #fff;
+    border-right: 1px solid #e5e7eb;
+
+    display: flex;
+    flex-direction: column;
+    padding: 20px 15px;
+}
+
+/* ===== TOPO ===== */
+
+.sidebar-topo {
+    margin-bottom: 80px;
+}
+
+.sidebar-topo h2 {
+    margin: 0;
+    font-size: 1.4rem;
+}
+
+.sidebar-topo span {
+    font-size: 0.85rem;
+    color: #666;
+}
+
+
+.imagem-logo {
+    height: 80px;
+    margin-bottom: 60px;
+
+    background-image: url("../img/logo.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: left center;
+}
+
+
+/* ===== MENU ===== */
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+   margin-top: 170px;
+}
+
+.menu-item {
+    background: none;
+    border: none;
+    text-align: left;
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    color: #4F4F4F;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+/* hover */
+.menu-item:hover {
+    background: #F4A460;
+}
+
+/* ✅ ATIVO (SEU PADRÃO A) */
+.menu-item.ativo {
+    background: #FF8C00; /* depois trocamos a cor */
+    color: #fff;
+}
+
+/* ===== SUBMENU ===== */
+
+.submenu {
+    margin-left: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.submenu button {
+    background: none;
+    border: none;
+    text-align: left;
+    font-size: 0.9rem;
+    color: #555;
+    cursor: pointer;
+}
+
+/* ===== ESPAÇAMENTO + REGRAS (B) ===== */
+
+.menu-bottom {
+    margin-top: 40px;
+    font-weight: 600;
+}
+
+.menu-bottom a {
+    text-decoration: none;
+    color: #444;
+}
+
+.menu-bottom a:hover {
+    text-decoration: underline;
+}
+
+/* ==================================================
+   ÁREA DE CONTEÚDO
+================================================== */
+main {
+  flex: 1;
+  width: 100%;
+  padding: 25px;
+  box-sizing: border-box;
+}
+
+/* ==================================================
+   TÍTULOS
+================================================== */
+h2 {
+  margin-bottom: 15px;
+}
+
+h3 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+/* ==================================================
+   TABELA (CORREÇÃO DO RANKING)
+================================================== */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+thead {
+  border-bottom: 1px solid #ccc;
+}
+
+th {
+  text-align: left;
+  font-weight: 600;
+  padding: 10px;
+}
+
+td {
+  padding: 10px;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+/* ✅ ESSA LINHA ARRUMA O BUG DO RANKING */
+tbody {
+  display: table-row-group;
+}
+
+/* ==================================================
+   LISTAS / JOGOS
+================================================== */
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  padding: 5px 0;
+}
+
+/* ==================================================
+   CONTEÚDOS DE GRUPO
+================================================== */
+#gruposContainer > div,
+#eliminatoriasContainer > div {
+  margin-bottom: 20px;
+}
+
+/* ==================================================
+   FOOTER
+================================================== */
+footer {
+  text-align: center;
+  padding: 20px;
+  font-size: 0.8rem;
+  color: #666;
+}
+
+/* ==================================================
+   FORM (ADMIN - mantido)
+================================================== */
+.form-linha {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+input, select {
+  padding: 8px;
+  border: 1px solid #ccc;
+}
+
+main button {
+  padding: 6px 10px;
+  background: #FF9E18;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+/* MENU DO ADMIN (SUPERIOR) */
+nav.menu {
+    display: flex;
+    gap: 10px;
+    padding: 10px 15px;
+}
+
+/* ==================================================
+   RESPONSIVO
+================================================== */
+@media (max-width: 768px) {
+
+
+ .container {
+    flex-direction: column;
+  }
+
+  .top-header {
+    order: 1;
+  }
+
+  .sidebar {
+    order: 2;
+  }
+
+  main > section {
+    order: 3;
+  }
+
+}
+
+
+table {
+  display: table !important;
+}
+
+tr {
+  display: table-row !important;
+}
+
+td {
+  display: table-cell !important;
+  color: #111 !important;
+}
+
+
+.top-header {
+  background-position: 100% center right;
+}
+
+
+/* ==================================================
+   REGRAS - BLOCOS VISUAIS (MODELO B)
+================================================== */
+
+.bloco-regras-unico {
+  position: relative;
+  margin-bottom: 25px;
+  border-radius: 12px;
+  overflow: hidden;
+
+  /* 🔥 imagem de fundo (troque pelo caminho real) */
+  background-image: url("../img/bkg1.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+/* 🔥 overlay escuro (essencial pra leitura) */
+.bloco-regras-unico::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6); /* controla a escuridão */
+}
+
+/* 🔥 conteúdo (texto acima do overlay) */
+.conteudo-regra {
+  position: relative;
+  padding: 25px;
+  color: #fff;
+}
+
+/* títulos */
+.conteudo-regra h2 {
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+/* listas */
+.conteudo-regra ul {
+  padding-left: 18px;
+}
+
+.conteudo-regra li {
+  margin-bottom: 8px;
+}
+
+/* parágrafos */
+.conteudo-regra p {
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+
+/* TOP HEADER ADMIN */
+
+.top-header.top-header-admin {
+  background: url("../img/head7.jpg") right center / cover no-repeat;
+}
+
+/* CARD PARTICIPANTE */
+.item-participante {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-bottom: 10px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* nome */
+.nome-participante {
+  font-weight: 500;
+}
+
+/* ações */
+.acoes-participante {
+  display: flex;
+  gap: 8px;
+}
+
+/* botão editar */
+.btn-editar {
+  background: #FF9E18;
+  border: none;
+  padding: 5px 8px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 0.8rem;
+}
+
+/* botão remover */
+.btn-remover {
+  background: #e53935;
+  color: #fff;
+  border: none;
+  padding: 5px 8px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 0.8rem;
+}
+
+/* input edição */
+.input-edit {
+  padding: 5px;
+  font-size: 0.9rem;
+  width: 150px;
+}
+
+   
+
+
